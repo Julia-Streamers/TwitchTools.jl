@@ -1,0 +1,14 @@
+name = "TwitchTools"
+uuid = "8023b820-9328-11e9-15f4-2dd9cb9c5368"
+authors = ["WooKyoung Noh <wookay.noh@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+
+[extras]
+Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test", "Jive"]
