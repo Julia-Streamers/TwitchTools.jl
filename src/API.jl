@@ -8,6 +8,7 @@ env = Dict(
 )
 
 const RFC3339 = DateFormat("yyyy-mm-dd\\THH:MM:SSZ")
+const TWITCH_API_SERVER = HTTP.URI("https://api.twitch.tv/")
 
 function _get_request(name::Symbol, client_id::String, url::String, query::Dict{String,String})::Vector{UInt8}
     resp = HTTP.get(url, ["Client-ID"=>client_id]; query=query)
@@ -18,8 +19,9 @@ function _get_request(name::Symbol, client_id::String, url::String, query::Dict{
 end
 
 function get_clip(client_id::String,
-                  clip_id::String;
-                  url = "https://api.twitch.tv/helix/clips")::Vector{UInt8}
+                  clip_id::String ;
+                  server::HTTP.URI=TWITCH_API_SERVER)::Vector{UInt8}
+    url = string(merge(server, path="/helix/clips"))
     query = Dict{String,String}("id" => clip_id)
     _get_request(:get_clip, client_id, url, query)
 end
@@ -27,8 +29,9 @@ end
 function get_clips_by_broadcaster(client_id::String,
                                   broadcaster_id::Int,
                                   started_at::Union{Nothing, Date, DateTime},
-                                  ended_at::Union{Nothing, Date, DateTime}; # started_at + 1 week
-                                  url = "https://api.twitch.tv/helix/clips")::Vector{UInt8}
+                                  ended_at::Union{Nothing, Date, DateTime} ; # started_at + 1 week
+                                  server::HTTP.URI=TWITCH_API_SERVER)::Vector{UInt8}
+    url = string(merge(server, path="/helix/clips"))
     query = Dict{String,String}("broadcaster_id" => string(broadcaster_id))
     if !isnothing(started_at)
         query["started_at"] = Dates.format(started_at, RFC3339)

@@ -17,18 +17,18 @@ function clips(::ClipController)
 end
 
 routes() do
-    get("/clips", ClipController, clips)
-    get("/clips/:clipid", ClipController, clips)
+    get("/helix/clips", ClipController, clips)
+    get("/kraken/clips/:clipid", ClipController, clips)
 end
 
 Bukdu.start(8080)
 
-API.get_clip("client_id", "clip_id"; url="http://localhost:8080/clips")
-broadcaster_id = 0
-API.get_clips_by_broadcaster("client_id", broadcaster_id, nothing, nothing; url="http://localhost:8080/clips")
+using HTTP
+const local_api_server = HTTP.URI("http://localhost:8080/")
 
-clip_id = "clip_id"
-APIv5.get_clip("client_id", clip_id; url="http://localhost:8080/clips/$clip_id")
+API.get_clip("client_id", "clip_id"; server=local_api_server)
+API.get_clips_by_broadcaster("client_id", 0, nothing, nothing; server=local_api_server)
+APIv5.get_clip("client_id", "clip_id"; server=local_api_server)
 
 Bukdu.stop()
 
