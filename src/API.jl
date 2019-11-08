@@ -4,7 +4,7 @@ using HTTP: HTTP
 using Dates: Dates, Date, DateTime, DateFormat
 
 env = Dict(
-    :debug_mode => true
+    :debug_mode => false
 )
 
 const RFC3339 = DateFormat("yyyy-mm-dd\\THH:MM:SSZ")
@@ -17,8 +17,9 @@ function _get_request(name::Symbol, client_id::String, url::String, query::Dict{
     resp.body
 end
 
-function get_clip(client_id::String, clip_id::String)::Vector{UInt8}
-    url = "https://api.twitch.tv/helix/clips"
+function get_clip(client_id::String,
+                  clip_id::String;
+                  url = "https://api.twitch.tv/helix/clips")::Vector{UInt8}
     query = Dict{String,String}("id" => clip_id)
     _get_request(:get_clip, client_id, url, query)
 end
@@ -26,9 +27,8 @@ end
 function get_clips_by_broadcaster(client_id::String,
                                   broadcaster_id::Int,
                                   started_at::Union{Nothing, Date, DateTime},
-                                  ended_at::Union{Nothing, Date, DateTime} # started_at + 1 week
-                                  )::Vector{UInt8}
-    url = "https://api.twitch.tv/helix/clips"
+                                  ended_at::Union{Nothing, Date, DateTime}; # started_at + 1 week
+                                  url = "https://api.twitch.tv/helix/clips")::Vector{UInt8}
     query = Dict{String,String}("broadcaster_id" => string(broadcaster_id))
     if !isnothing(started_at)
         query["started_at"] = Dates.format(started_at, RFC3339)

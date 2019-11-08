@@ -8,8 +8,9 @@ HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [extras]
-Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+Jive = "ba5e3d4b-8524-549f-bc71-e76ad9e9deed"
+Bukdu = "3e78a19a-cc83-51d8-955b-515f39fd7955"
 
 [targets]
-test = ["Test", "Jive"]
+test = ["Test", "Jive", "Bukdu"]
