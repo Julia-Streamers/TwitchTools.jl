@@ -32,4 +32,15 @@ APIv5.get_clip("client_id", "clip_id"; server=local_api_server)
 
 Bukdu.stop()
 
+function mock_action(server, path, headers=[], query=nothing)
+    if query !== nothing
+        path = string(merge(HTTP.URI(path), query=query))
+    end
+    Router.call(get, path, headers).resp
+end
+
+API.get_clip("client_id", "clip_id"; action=mock_action)
+API.get_clips_by_broadcaster("client_id", 0, nothing, nothing; action=mock_action)
+APIv5.get_clip("client_id", "clip_id"; action=mock_action)
+
 end # module test_twitchtools_api
