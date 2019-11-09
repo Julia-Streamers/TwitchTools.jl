@@ -22,7 +22,7 @@ routes() do
     get("/kraken/clips/:clipid", ClipController, clips)
 end
 
-function mock_action(server, path, headers=[], query=nothing)
+function mock_action(endpoint, path, headers=[], query=nothing)
     if query !== nothing
         path = string(merge(HTTP.URI(path), query=query))
     end
@@ -38,9 +38,9 @@ Bukdu.start(8080)
 
 const local_api_server = HTTP.URI("http://localhost:8080/")
 
-API.get_clip("client_id", "clip_id"; server=local_api_server)
-API.get_clips_by_broadcaster("client_id", 0, nothing, nothing; server=local_api_server)
-APIv5.get_clip("client_id", "clip_id"; server=local_api_server)
+API.get_clip("client_id", "clip_id"; endpoint=local_api_server)
+API.get_clips_by_broadcaster("client_id", 0, nothing, nothing; endpoint=local_api_server)
+APIv5.get_clip("client_id", "clip_id"; endpoint=local_api_server)
 
 Bukdu.stop()
 
