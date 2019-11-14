@@ -18,3 +18,4 @@ test = ["Test", "Jive", "Bukdu"]
 
 [compat]
 julia = "1"
+Bukdu = "0.4.7"
